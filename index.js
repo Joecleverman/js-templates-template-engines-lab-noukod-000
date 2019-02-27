@@ -1,23 +1,31 @@
 function createPost(){
-  const author=document.getElementById("postAuthor");
-  const title=document.getElementById("postTitle");
-  const body=document.getElementById("postBody");
-  const pageTemplate=document.getElementById("page-template").innerHTML
+  let title = document.getElementById('title').value;
+  let body = document.getElementById('body').value;
+  let author = document.getElementById('author').value;
 
-  pageTemplateFn=_.template(pageTemplate);
+  let pageTemplate = _.template(document.getElementById('page-template').innerHTML);
+  let postTemplate = _.template(document.getElementById('post-template').innerHTML);
+  let commentsTemplate = _.template(document.getElementById('comments-template').innerHTML);
 
-  const postTemplate=document.getElementById("post-template").innerHTML;
-  postTemplateFn=_.template(postTemplate);
+  document.getElementsByTagName("main")[0].innerHTML += pageTemplate()
 
-  let postTemplateHTML=postTemplateFn({postTitle:title,postAuthor:author})
+  let postElement = document.getElementById('post');
+  let blogSection = postTemplate({title: title, body: body, author: author});
+  let commentsSection = commentsTemplate();
 
-  let pageTemplateHTML=pageTemplateFn({post:postTemplateHTML});
+  postElement.innerHTML = blogSection;
+  postElement.getElementsByTagName('footer')[0].innerHTML = commentsSection;
 }
 
-function postComment(){
-  const commenterName=document.getElementById("commenterName");
-  const commenterText=document.getElementById("commenterText");
+function postComment() {
+  let comment = document.getElementById('comment').value;
+  let commenter = document.getElementById('commenter').value;
 
-  const commentTemplate=document.getElementById("comment-template").innerHTML
-  const commentTemplateFn=_.template(commentTemplate);
+ let commentTemplate = _.template(document.getElementById('comment-template').innerHTML);
+ let commentsDiv = document.getElementById('comments');
+
+ let commentTemplateHTML = commentTemplate({ comment: comment, commenter: commenter });
+
+  commentsDiv.innerHTML += commentTemplateHTML;
+
 }
